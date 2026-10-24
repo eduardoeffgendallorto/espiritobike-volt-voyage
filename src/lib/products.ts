@@ -46,7 +46,7 @@ export const products: Product[] = [
     range: "Até 60 km",
     rangeMax: 60,
     wheel: "Aro 20\" Fat Tire",
-    image: urban.url,
+    image: urban.url as string,
     highlight: "Lançamento",
   },
   {
@@ -61,7 +61,7 @@ export const products: Product[] = [
     battery: "20Ah",
     range: "Até 70 km",
     rangeMax: 70,
-    image: v9.url,
+    image: v9.url as string,
     highlight: "Maior autonomia",
   },
   {
@@ -77,7 +77,7 @@ export const products: Product[] = [
     battery: "48V 15Ah (ou 48V 30Ah bateria dupla)",
     range: "40–60 km (até 90 km bateria dupla)",
     rangeMax: 90,
-    image: v8.url,
+    image: v8.url as string,
     highlight: "Bateria dupla",
   },
 ];
