@@ -21,8 +21,8 @@ export function ProductCard({ p }: { p: Product }) {
         <h3 className="text-xl font-bold">{p.name}</h3>
       </Link>
       <div className="mt-3 grid grid-cols-3 gap-2 text-xs">
-        <Spec icon={<Zap className="h-3.5 w-3.5" />} v={p.motor.split(" ")[0]} />
-        <Spec icon={<Battery className="h-3.5 w-3.5" />} v={p.battery.split(" (")[0].replace("Lítio ", "")} />
+        <Spec icon={<Zap className="h-3.5 w-3.5" />} v={p.motor.split(" ")[0] ?? ""} />
+        <Spec icon={<Battery className="h-3.5 w-3.5" />} v={(p.battery.split(" (")[0] ?? "").replace("Lítio ", "")} />
         <Spec icon={<Gauge className="h-3.5 w-3.5" />} v={`${p.rangeMax} km`} />
       </div>
       <div className="mt-5 flex items-end justify-between">
