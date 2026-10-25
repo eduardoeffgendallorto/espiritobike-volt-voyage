@@ -244,6 +244,9 @@ function StoreLocation() {
             <a href={STORE.instagram} target="_blank" rel="noreferrer" className="flex gap-3 hover:text-primary">
               <Instagram className="h-5 w-5 shrink-0 text-primary" /> <span>@espiritobike027</span>
             </a>
+            <p className="border-t border-border pt-4 text-xs uppercase tracking-widest text-muted-foreground">
+              Pagamento: Pix · Cartão de crédito · Cartão de débito
+            </p>
           </div>
           <Magnetic>
             <a
