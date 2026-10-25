@@ -30,7 +30,7 @@ function Index() {
       <Hero />
       <Catalog />
       <Perks />
-      <Location />
+      <StoreLocation />
     </PageTransition>
   );
 }
@@ -200,7 +200,7 @@ function Perks() {
 const MAPS_EMBED =
   "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14963.140610923845!2d-40.30336338196997!3d-20.35049243878097!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb81604a269715f%3A0xf63aea9a4cdebf85!2sR.%20Vital%20Brasil%2C%20509%20-%20Boa%20Vista%20I%2C%20Vila%20Velha%20-%20ES%2C%2029102-770!5e0!3m2!1spt-BR!2sbr!4v1792900034762!5m2!1spt-BR!2sbr";
 
-function Location() {
+function StoreLocation() {
   const root = useRef<HTMLElement>(null);
   useGSAP(
     () => {
