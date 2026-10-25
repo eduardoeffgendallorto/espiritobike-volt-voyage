@@ -236,7 +236,7 @@ function StoreLocation() {
             className="h-[340px] w-full rounded-2xl md:h-[480px]"
           />
         </div>
-        <div className="loc-in flex flex-col justify-between gap-6 rounded-3xl border border-border bg-card p-8">
+        <div className="loc-in flex flex-col justify-center gap-8 rounded-3xl border border-border bg-card p-8">
           <div className="space-y-5 text-sm">
             <p className="flex gap-3"><MapPin className="h-5 w-5 shrink-0 text-primary" /> <span>{STORE.address}</span></p>
             <p className="flex gap-3"><Phone className="h-5 w-5 shrink-0 text-primary" /> <span>{STORE.phoneSales} · Vendas</span></p>
