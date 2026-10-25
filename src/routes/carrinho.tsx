@@ -11,6 +11,8 @@ export const Route = createFileRoute("/carrinho")({
       { name: "description", content: "Revise suas bikes elétricas e finalize pelo WhatsApp." },
       { property: "og:title", content: "Carrinho · EspiritoBike" },
       { property: "og:description", content: "Finalize seu pedido com a EspiritoBike." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Cart,
