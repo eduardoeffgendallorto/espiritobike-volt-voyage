@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep a single Lenis instance in SmoothScroll, driven by the GSAP ticker and synchronized with ScrollTrigger; this avoids competing animation loops across routes.
+- Disable smooth scrolling for reduced-motion preferences and use the shared Button for back-to-top navigation; this keeps the navigation accessible.
