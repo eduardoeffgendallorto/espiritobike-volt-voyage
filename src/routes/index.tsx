@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { ArrowDown, Gift, CreditCard, ShieldCheck, Wrench, MapPin, Navigation, Instagram } from "lucide-react";
+import { ArrowDown, Gift, CreditCard, ShieldCheck, Wrench, MapPin, Navigation, Instagram, Phone } from "lucide-react";
 import heroBike from "@/assets/v8pro.webp.asset.json";
 import { products, STORE, brl } from "@/lib/products";
 import { ProductCard } from "@/components/site/ProductCard";
@@ -193,6 +193,70 @@ function Perks() {
           <p className="mt-1 text-sm text-muted-foreground">{d}</p>
         </div>
       ))}
+    </section>
+  );
+}
+
+const MAPS_EMBED =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14963.140610923845!2d-40.30336338196997!3d-20.35049243878097!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb81604a269715f%3A0xf63aea9a4cdebf85!2sR.%20Vital%20Brasil%2C%20509%20-%20Boa%20Vista%20I%2C%20Vila%20Velha%20-%20ES%2C%2029102-770!5e0!3m2!1spt-BR!2sbr!4v1792900034762!5m2!1spt-BR!2sbr";
+
+function Location() {
+  const root = useRef<HTMLElement>(null);
+  useGSAP(
+    () => {
+      gsap.from(".loc-in", {
+        y: 70,
+        opacity: 0,
+        stagger: 0.1,
+        duration: 0.9,
+        ease: "power3.out",
+        scrollTrigger: { trigger: root.current, start: "top 80%" },
+      });
+    },
+    { scope: root },
+  );
+  const directions = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(STORE.address)}`;
+  return (
+    <section ref={root} id="localizacao" className="mx-auto max-w-6xl px-6 py-24">
+      <div className="mb-10">
+        <p className="loc-in text-sm font-semibold uppercase tracking-widest text-primary">Localização</p>
+        <h2 className="loc-in text-4xl font-black md:text-5xl">Onde estamos</h2>
+      </div>
+      <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
+        <div className="loc-in overflow-hidden rounded-3xl border border-border bg-card p-2 shadow-soft">
+          <iframe
+            title="Mapa da EspiritoBike em Vila Velha - ES"
+            src={MAPS_EMBED}
+            width="100%"
+            height="450"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+            className="h-[340px] w-full rounded-2xl md:h-[480px]"
+          />
+        </div>
+        <div className="loc-in flex flex-col justify-between gap-6 rounded-3xl border border-border bg-card p-8">
+          <div className="space-y-5 text-sm">
+            <p className="flex gap-3"><MapPin className="h-5 w-5 shrink-0 text-primary" /> <span>{STORE.address}</span></p>
+            <p className="flex gap-3"><Phone className="h-5 w-5 shrink-0 text-primary" /> <span>{STORE.phoneSales} · Vendas</span></p>
+            <p className="flex gap-3"><Phone className="h-5 w-5 shrink-0 text-primary" /> <span>{STORE.phoneService} · Manutenção</span></p>
+            <a href={STORE.instagram} target="_blank" rel="noreferrer" className="flex gap-3 hover:text-primary">
+              <Instagram className="h-5 w-5 shrink-0 text-primary" /> <span>@espiritobike027</span>
+            </a>
+          </div>
+          <Magnetic>
+            <a
+              href={directions}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-7 py-4 font-semibold text-ink-foreground transition hover:bg-primary"
+            >
+              Como chegar <Navigation className="h-4 w-4" />
+            </a>
+          </Magnetic>
+        </div>
+      </div>
     </section>
   );
 }
