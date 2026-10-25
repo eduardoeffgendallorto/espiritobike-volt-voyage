@@ -23,7 +23,7 @@ export type Product = {
 
 export const STORE = {
   name: "EspiritoBike",
-  tagline: "A frase você quem decide.",
+  tagline: "Pedale no seu espírito.",
   phoneSales: "(27) 99742-2727",
   phoneService: "(27) 99822-2397",
   whatsapp: "5527997422727",
