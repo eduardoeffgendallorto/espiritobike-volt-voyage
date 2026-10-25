@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ShoppingBag, GitCompareArrows, MessageCircle, Instagram, MapPin, Phone, X } from "lucide-react";
-import logo from "@/assets/logo.png.asset.json";
+import logo from "@/assets/logo.png";
 import { useStore } from "@/lib/store";
 import { getProduct, STORE } from "@/lib/products";
 
@@ -19,7 +19,7 @@ export function Header() {
     <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4">
       <div className="glass mx-auto flex max-w-6xl items-center justify-between rounded-full border border-border/60 px-4 py-2 shadow-soft">
         <Link to="/" className="flex items-center gap-2">
-          <img src={logo.url} alt="EspiritoBike" className="h-10 w-10 object-contain" />
+          <img src={logo} alt="EspiritoBike" className="h-10 w-10 object-contain" />
           <span className="font-display text-sm font-bold tracking-tight">ESPIRITOBIKE</span>
         </Link>
         <nav className="hidden gap-1 md:flex">
@@ -112,7 +112,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-3">
         <div>
           <div className="flex items-center gap-3">
-            <img src={logo.url} alt="" className="h-14 w-14 object-contain" />
+            <img src={logo} alt="" className="h-14 w-14 object-contain" />
             <div>
               <p className="font-display font-bold">ESPIRITOBIKE</p>
               <p className="text-sm opacity-70">Revendedor Autorizado</p>

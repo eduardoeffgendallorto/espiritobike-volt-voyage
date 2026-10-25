@@ -1,15 +1,26 @@
-// @lovable.dev/vite-tanstack-config already includes the following — do NOT add them manually
-// or the app will break with duplicate plugins:
-//   - TanStack devtools (dev-only, first), tanstackStart, viteReact, tailwindcss, tsConfigPaths,
-//     nitro (build-only using cloudflare as a default target), VITE_* env injection, @ path alias,
-//     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
-// You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
+// @lovable.dev/vite-tanstack-config já inclui os plugins do TanStack Start, React, Tailwind etc.
+// NÃO adicione esses plugins à mão (ficam duplicados e o app quebra).
+//
+// Publicação no GitHub Pages: site 100% estático.
+//  - nitro: false -> não gera o servidor do Cloudflare
+//  - spa          -> gera um index.html "casca" que carrega o site no navegador
+//  - pages        -> páginas que já saem prontas em HTML (melhor para o Google)
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  nitro: false,
   tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
+    // Redireciona o servidor do TanStack Start para src/server.ts (nosso tratador de erros de SSR).
     server: { entry: "server" },
+    spa: {
+      enabled: true,
+      prerender: { outputPath: "/index.html", crawlLinks: true },
+    },
+    pages: [
+      { path: "/produto/urban-2026" },
+      { path: "/produto/v9-max-ranger" },
+      { path: "/produto/ouxi-v8-pro" },
+    ],
+    sitemap: { enabled: true, host: "https://espiritobike.eduardoeffgen.com.br" },
   },
 });
