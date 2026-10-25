@@ -222,7 +222,7 @@ function StoreLocation() {
         <p className="loc-in text-sm font-semibold uppercase tracking-widest text-primary">Localização</p>
         <h2 className="loc-in text-4xl font-black md:text-5xl">Onde estamos</h2>
       </div>
-      <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
+      <div className="grid items-start gap-6 lg:grid-cols-[1fr_360px]">
         <div className="loc-in overflow-hidden rounded-3xl border border-border bg-card p-2 shadow-soft">
           <iframe
             title="Mapa da EspiritoBike em Vila Velha - ES"
