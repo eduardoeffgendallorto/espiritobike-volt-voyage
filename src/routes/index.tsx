@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { ArrowDown, Gift, CreditCard, ShieldCheck, Wrench } from "lucide-react";
+import { ArrowDown, Gift, CreditCard, ShieldCheck, Wrench, MapPin, Navigation, Instagram } from "lucide-react";
 import heroBike from "@/assets/v8pro.webp.asset.json";
 import { products, STORE, brl } from "@/lib/products";
 import { ProductCard } from "@/components/site/ProductCard";
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
       { title: "EspiritoBike · Bikes elétricas em Vila Velha" },
       { name: "description", content: "Revendedor autorizado de bicicletas elétricas em Vila Velha - ES. Urban, V9 Max Ranger e V8 Pro com 6 brindes." },
       { property: "og:title", content: "EspiritoBike · Bikes elétricas" },
-      { property: "og:description", content: "Catálogo de bicicletas elétricas. A frase você quem decide." },
+      { property: "og:description", content: "Catálogo de bicicletas elétricas. Pedale no seu espírito." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -30,6 +30,7 @@ function Index() {
       <Hero />
       <Catalog />
       <Perks />
+      <Location />
     </PageTransition>
   );
 }
