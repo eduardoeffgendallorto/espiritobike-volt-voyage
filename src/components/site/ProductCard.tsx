@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { brl, type Product } from "@/lib/products";
 import { useStore } from "@/lib/store";
 import { Magnetic } from "./Magnetic";
+import { Button } from "@/components/ui/button";
 
 export function ProductCard({ p }: { p: Product }) {
   const { addToCart, toggleCompare, compare } = useStore();
@@ -21,7 +22,7 @@ export function ProductCard({ p }: { p: Product }) {
         <h3 className="text-xl font-bold">{p.name}</h3>
       </Link>
       <div className="mt-3 grid grid-cols-3 gap-2 text-xs">
-        <Spec icon={<Zap className="h-3.5 w-3.5" />} v={p.motor.split(" ")[0] ?? ""} />
+        <Spec icon={<Zap className="h-3.5 w-3.5" />} v={p.motor === "Não informado" ? p.motor : (p.motor.split(" ")[0] ?? "")} />
         <Spec icon={<Battery className="h-3.5 w-3.5" />} v={(p.battery.split(" (")[0] ?? "").replace("Lítio ", "")} />
         <Spec icon={<Gauge className="h-3.5 w-3.5" />} v={`${p.rangeMax} km`} />
       </div>
@@ -32,22 +33,23 @@ export function ProductCard({ p }: { p: Product }) {
           {p.priceNote && <p className="text-[11px] text-muted-foreground">{p.priceNote}</p>}
         </div>
       </div>
-      <div className="mt-4 flex gap-2">
+      <div className="mt-4 flex flex-wrap gap-2">
         <Magnetic>
-          <button
+          <Button
             onClick={() => { addToCart(p.slug); toast.success(`${p.name} adicionada ao carrinho`); }}
-            className="rounded-full bg-ink px-5 py-3 text-sm font-semibold text-ink-foreground transition hover:bg-primary"
+            className="h-auto rounded-full bg-ink px-5 py-3 text-sm font-semibold text-ink-foreground transition hover:bg-primary"
           >
             Adicionar
-          </button>
+          </Button>
         </Magnetic>
         <Magnetic>
-          <button
+          <Button
+            variant="outline"
             onClick={() => toggleCompare(p.slug)}
-            className={`flex items-center gap-1 rounded-full border px-4 py-3 text-sm font-semibold transition ${inCompare ? "border-primary bg-primary/10 text-primary" : "border-border hover:border-ink"}`}
+            className={`flex h-auto items-center gap-1 rounded-full border px-4 py-3 text-sm font-semibold transition ${inCompare ? "border-primary bg-primary/10 text-primary" : "border-border hover:border-ink"}`}
           >
             {inCompare ? <Check className="h-4 w-4" /> : <Plus className="h-4 w-4" />} Comparar
-          </button>
+          </Button>
         </Magnetic>
       </div>
     </article>
@@ -55,5 +57,5 @@ export function ProductCard({ p }: { p: Product }) {
 }
 
 const Spec = ({ icon, v }: { icon: React.ReactNode; v: string }) => (
-  <div className="flex items-center gap-1 truncate rounded-xl bg-muted px-2 py-2 font-medium">{icon}<span className="truncate">{v}</span></div>
+  <div className="flex min-w-0 items-center gap-1 rounded-xl bg-muted px-2 py-2 font-medium [&>svg]:shrink-0">{icon}<span className="break-words" title={v}>{v}</span></div>
 );

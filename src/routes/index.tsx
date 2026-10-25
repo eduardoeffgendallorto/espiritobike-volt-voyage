@@ -17,6 +17,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Revendedor autorizado de bicicletas elétricas em Vila Velha - ES. Urban, V9 Max Ranger e V8 Pro com 6 brindes." },
       { property: "og:title", content: "EspiritoBike · Bikes elétricas" },
       { property: "og:description", content: "Catálogo de bicicletas elétricas. A frase você quem decide." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Index,
@@ -116,16 +118,13 @@ function Catalog() {
 
   useGSAP(
     () => {
-      gsap.from(".product-card", {
-        y: 120, opacity: 0, stagger: 0.15, duration: 1, ease: "power3.out",
-        scrollTrigger: { trigger: ".products-grid", start: "top 85%" },
-      });
       const mm = gsap.matchMedia();
       mm.add("(min-width: 1024px)", () => {
         ScrollTrigger.create({
           trigger: ".filters", start: "top 110px", endTrigger: ".products-grid", end: "bottom bottom", pin: true, pinSpacing: false,
         });
       });
+      return () => mm.revert();
     },
     { scope: root },
   );

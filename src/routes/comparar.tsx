@@ -11,6 +11,8 @@ export const Route = createFileRoute("/comparar")({
       { name: "description", content: "Compare motor, bateria e autonomia das bikes elétricas lado a lado." },
       { property: "og:title", content: "Comparar bikes · EspiritoBike" },
       { property: "og:description", content: "Compare as bikes elétricas da EspiritoBike." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Compare,

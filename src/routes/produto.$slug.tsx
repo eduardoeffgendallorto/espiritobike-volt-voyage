@@ -22,6 +22,8 @@ export const Route = createFileRoute("/produto/$slug")({
           { name: "description", content: `${loaderData.name}: motor ${loaderData.motor}, bateria ${loaderData.battery}, ${loaderData.range}.` },
           { property: "og:title", content: `${loaderData.name} · EspiritoBike` },
           { property: "og:description", content: `Bike elétrica ${loaderData.name} por ${brl(loaderData.price)}.` },
+          { property: "og:type", content: "website" },
+          { name: "twitter:card", content: "summary_large_image" },
         ]
       : [{ title: "Indisponível · EspiritoBike" }, { name: "robots", content: "noindex" }],
   }),
