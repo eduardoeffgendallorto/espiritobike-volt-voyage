@@ -5,7 +5,8 @@ import { useGSAP } from "@gsap/react";
 import { ShoppingBag, GitCompareArrows, MessageCircle, Instagram, MapPin, Phone, X } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { useStore } from "@/lib/store";
-import { getProduct, STORE } from "@/lib/products";
+import { STORE } from "@/lib/products";
+import { useCatalog } from "@/lib/catalog";
 
 export function Header() {
   const { cart, compare } = useStore();
@@ -78,6 +79,7 @@ export function WhatsAppFloat() {
 
 export function CompareBar() {
   const { compare, toggleCompare } = useStore();
+  const { getProduct } = useCatalog();
   const ref = useRef<HTMLDivElement>(null);
   useGSAP(
     () => {
@@ -85,12 +87,13 @@ export function CompareBar() {
     },
     { dependencies: [compare.length > 0] },
   );
-  if (!compare.length) return null;
+  const items = compare.map(getProduct).filter((p): p is NonNullable<typeof p> => !!p);
+  if (!items.length) return null;
   return (
     <div ref={ref} className="fixed inset-x-0 bottom-6 z-40 flex justify-center px-4">
       <div className="glass flex items-center gap-3 rounded-full border border-border/60 py-2 pl-3 pr-2 shadow-soft">
-        {compare.map((s) => {
-          const p = getProduct(s)!;
+        {items.map((p) => {
+          const s = p.slug;
           return (
             <button key={s} onClick={() => toggleCompare(s)} className="group relative" aria-label={`Remover ${p.name}`}>
               <img src={p.image} alt={p.name} className="h-10 w-14 rounded-lg bg-card object-contain" />
@@ -99,7 +102,7 @@ export function CompareBar() {
           );
         })}
         <Link to="/comparar" className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-ink-foreground">
-          Comparar ({compare.length})
+          Comparar ({items.length})
         </Link>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { X } from "lucide-react";
-import { brl, getProduct, type Product } from "@/lib/products";
+import { brl, type Product } from "@/lib/products";
+import { useCatalog } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 import { PageTransition } from "@/components/site/Chrome";
 
@@ -29,6 +30,7 @@ const rows: [string, (p: Product) => string][] = [
 
 function Compare() {
   const { compare, toggleCompare } = useStore();
+  const { getProduct } = useCatalog();
   const list = compare.map(getProduct).filter(Boolean) as Product[];
   return (
     <PageTransition>

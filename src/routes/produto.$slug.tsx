@@ -8,6 +8,7 @@ import { brl, getProduct, STORE } from "@/lib/products";
 import { useStore } from "@/lib/store";
 import { Magnetic } from "@/components/site/Magnetic";
 import { PageTransition } from "@/components/site/Chrome";
+import { loadCatalog, useCatalog } from "@/lib/catalog";
 
 export const Route = createFileRoute("/produto/$slug")({
   loader: ({ params }) => {

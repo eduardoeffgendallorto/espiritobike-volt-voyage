@@ -5,7 +5,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ArrowDown, Gift, CreditCard, ShieldCheck, Wrench, MapPin, Navigation, Instagram, Phone } from "lucide-react";
 import heroBike from "@/assets/v8pro.webp";
-import { products, STORE, brl } from "@/lib/products";
+import { STORE, brl } from "@/lib/products";
+import { useCatalog } from "@/lib/catalog";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Magnetic } from "@/components/site/Magnetic";
 import { PageTransition } from "@/components/site/Chrome";
@@ -88,7 +89,7 @@ function Hero() {
           </div>
         </div>
         <div className="relative">
-          <img src={heroBike}alt="Ouxi V8 Pro" className="hero-bike w-full mix-blend-multiply" />
+          <img src={heroBike} alt="Ouxi V8 Pro" className="hero-bike w-full mix-blend-multiply" />
           <div className="hero-specs absolute -bottom-4 right-0 z-20 grid grid-cols-3 gap-2 rounded-2xl glass border border-border p-3 text-center shadow-soft">
             {[["1000W", "Motor"], ["48V", "Bateria"], ["90 km", "Autonomia"]].map(([v, l]) => (
               <div key={l} className="px-3">
@@ -105,16 +106,27 @@ function Hero() {
 
 function Catalog() {
   const root = useRef<HTMLElement>(null);
-  const [maxPrice, setMaxPrice] = useState(8000);
+  const { products, isLoading, isFallback } = useCatalog();
+
+  // Os limites dos filtros saem dos próprios modelos: uma bike nova e mais cara não fica escondida.
+  const prices = products.map((p) => p.price);
+  const priceMin = prices.length ? Math.floor(Math.min(...prices) / 100) * 100 : 0;
+  const priceTop = prices.length ? Math.ceil(Math.max(...prices) / 100) * 100 : 0;
+  const rangeTop = products.length
+    ? Math.max(10, Math.ceil(Math.max(...products.map((p) => p.rangeMax)) / 10) * 10)
+    : 90;
+
+  const [maxPriceSel, setMaxPrice] = useState<number | null>(null); // null = sem limite
   const [minRange, setMinRange] = useState(0);
   const [sort, setSort] = useState<"price" | "range">("price");
+  const maxPrice = Math.min(maxPriceSel ?? priceTop, priceTop);
 
   const list = useMemo(
     () =>
-      products
+      [...products]
         .filter((p) => p.price <= maxPrice && p.rangeMax >= minRange)
         .sort((a, b) => (sort === "price" ? a.price - b.price : b.rangeMax - a.rangeMax)),
-    [maxPrice, minRange, sort],
+    [products, maxPrice, minRange, sort],
   );
 
   useGSAP(
@@ -137,8 +149,13 @@ function Catalog() {
           <p className="text-sm font-semibold uppercase tracking-widest text-primary">Catálogo</p>
           <h2 className="text-4xl font-black md:text-5xl">Bikes elétricas</h2>
         </div>
-        <p className="text-muted-foreground">{list.length} modelo(s)</p>
+        <p className="text-muted-foreground">{isLoading ? "Carregando..." : `${list.length} modelo(s)`}</p>
       </div>
+      {isFallback && (
+        <p className="mb-6 rounded-2xl bg-muted px-4 py-3 text-sm text-muted-foreground">
+          Não foi possível atualizar o catálogo agora. Os valores podem estar desatualizados: confirme com o vendedor no WhatsApp.
+        </p>
+      )}
       <div className="grid gap-8 lg:grid-cols-[260px_1fr]">
         <aside className="filters h-fit space-y-6 rounded-3xl border border-border bg-card p-6">
           <div>
@@ -147,11 +164,11 @@ function Catalog() {
           </div>
           <label className="block">
             <span className="flex justify-between text-sm font-semibold">Preço máx. <span className="text-primary">{brl(maxPrice)}</span></span>
-            <input type="range" min={6000} max={8000} step={100} value={maxPrice} onChange={(e) => setMaxPrice(+e.target.value)} className="mt-2 w-full accent-primary" />
+            <input type="range" min={priceMin} max={Math.max(priceTop, priceMin + 100)} step={100} value={maxPrice} onChange={(e) => setMaxPrice(+e.target.value)} className="mt-2 w-full accent-primary" />
           </label>
           <label className="block">
             <span className="flex justify-between text-sm font-semibold">Autonomia mín. <span className="text-primary">{minRange} km</span></span>
-            <input type="range" min={0} max={90} step={10} value={minRange} onChange={(e) => setMinRange(+e.target.value)} className="mt-2 w-full accent-primary" />
+            <input type="range" min={0} max={rangeTop} step={10} value={minRange} onChange={(e) => setMinRange(+e.target.value)} className="mt-2 w-full accent-primary" />
           </label>
           <div>
             <p className="mb-2 text-sm font-semibold">Ordenar por</p>
@@ -165,8 +182,14 @@ function Catalog() {
           </div>
         </aside>
         <div className="products-grid grid gap-6 sm:grid-cols-2 xl:grid-cols-2">
-          {list.map((p) => <ProductCard key={p.slug} p={p} />)}
-          {!list.length && <p className="text-muted-foreground">Nenhum modelo com esses filtros.</p>}
+          {isLoading
+            ? [0, 1].map((i) => <div key={i} className="h-96 animate-pulse rounded-3xl bg-muted" />)
+            : list.map((p) => <ProductCard key={p.slug} p={p} />)}
+          {!isLoading && !list.length && (
+            <p className="text-muted-foreground">
+              {products.length ? "Nenhum modelo com esses filtros." : "Novos modelos em breve."}
+            </p>
+          )}
         </div>
       </div>
     </section>

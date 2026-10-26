@@ -21,9 +21,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - uses: oven-sh/setup-bun@v2
-      - run: bun install --frozen-lockfile
-      - run: bun run build
+      - run: npm install --legacy-peer-deps --no-audit --no-fund
+      - run: npm run build
       # O GitHub Pages não conhece as rotas do site: servir a "casca" como 404.html
       # faz links diretos (ex.: /produto/qualquer-bike) carregarem o app.
       - run: cp dist/client/index.html dist/client/404.html
