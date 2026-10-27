@@ -41,30 +41,46 @@ function Hero() {
   useGSAP(
     () => {
       gsap.registerPlugin(ScrollTrigger);
+      ScrollTrigger.config({ ignoreMobileResize: true });
       gsap.from(".hero-in", { y: 60, opacity: 0, stagger: 0.12, duration: 1.1, ease: "power4.out", delay: 0.2 });
-      gsap.from(".hero-bike", { x: 200, opacity: 0, duration: 1.6, ease: "power3.out", delay: 0.3 });
-      const tl = gsap.timeline({
-        scrollTrigger: { trigger: root.current, start: "top top", end: "+=120%", scrub: 1, pin: true },
+      gsap.from(".hero-bike", { x: 120, opacity: 0, duration: 1.4, ease: "power3.out", delay: 0.3 });
+      const mm = gsap.matchMedia();
+      // Desktop: seção fixada com scrub completo.
+      mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: root.current, start: "top top", end: "+=120%", scrub: 1, pin: true, invalidateOnRefresh: true },
+        });
+        tl.to(".hero-bike", { scale: 1.35, x: "-18vw", rotate: -4, ease: "none" }, 0)
+          .to(".hero-copy", { y: -140, opacity: 0, ease: "none" }, 0)
+          .to(".hero-word", { xPercent: -30, ease: "none" }, 0)
+          .to(".hero-blob-a", { y: -200, ease: "none" }, 0)
+          .to(".hero-blob-b", { y: 160, ease: "none" }, 0)
+          .fromTo(".hero-specs", { opacity: 0, y: 60 }, { opacity: 1, y: 0, ease: "none" }, 0.5);
       });
-      tl.to(".hero-bike", { scale: 1.35, x: "-18vw", rotate: -4, ease: "none" }, 0)
-        .to(".hero-copy", { y: -140, opacity: 0, ease: "none" }, 0)
-        .to(".hero-word", { xPercent: -30, ease: "none" }, 0)
-        .to(".hero-blob-a", { y: -200, ease: "none" }, 0)
-        .to(".hero-blob-b", { y: 160, ease: "none" }, 0)
-        .fromTo(".hero-specs", { opacity: 0, y: 60 }, { opacity: 1, y: 0, ease: "none" }, 0.5);
+      // Celular: sem fixar (evita saltos da barra do navegador), apenas parallax leve.
+      mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
+        const tl = gsap.timeline({
+          scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true },
+        });
+        tl.to(".hero-word", { xPercent: -20, ease: "none" }, 0)
+          .to(".hero-blob-a", { y: -80, ease: "none" }, 0)
+          .to(".hero-blob-b", { y: 60, ease: "none" }, 0)
+          .to(".hero-bike", { y: -30, ease: "none" }, 0);
+      });
+      return () => mm.revert();
     },
     { scope: root },
   );
 
   return (
-    <section ref={root} className="relative h-screen overflow-hidden grid-lines">
+    <section ref={root} className="relative min-h-[100svh] overflow-hidden grid-lines md:h-screen md:min-h-0">
       <div className="hero-blob-a absolute -left-32 top-24 h-96 w-96 rounded-full bg-electric/40 blur-3xl" />
       <div className="hero-blob-b absolute -right-20 bottom-0 h-96 w-96 rounded-full bg-pinkish/50 blur-3xl" />
       <p className="hero-word pointer-events-none absolute bottom-6 left-0 whitespace-nowrap font-display text-[22vw] font-black leading-none text-ink/5">
         ELÉTRICA ELÉTRICA
       </p>
 
-      <div className="relative mx-auto grid h-full max-w-6xl items-center gap-6 px-6 pt-24 md:grid-cols-2">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-6 pb-16 pt-28 md:h-full md:grid-cols-2 md:gap-6 md:pb-0 md:pt-24">
         <div className="hero-copy z-10">
           <p className="hero-in mb-4 inline-block rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
             Revendedor autorizado · Vila Velha
