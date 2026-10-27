@@ -106,7 +106,7 @@ function Hero() {
         </div>
         <div className="relative">
           <img src={heroBike} alt="Ouxi V8 Pro" className="hero-bike w-full mix-blend-multiply" />
-          <div className="hero-specs absolute -bottom-4 right-0 md:opacity-0 z-20 grid grid-cols-3 gap-2 rounded-2xl glass border border-border p-3 text-center shadow-soft">
+          <div className="hero-specs absolute -bottom-4 right-0 z-20 grid grid-cols-3 gap-2 rounded-2xl glass border border-border p-3 text-center shadow-soft">
             {[["1000W", "Motor"], ["48V", "Bateria"], ["90 km", "Autonomia"]].map(([v, l]) => (
               <div key={l} className="px-3">
                 <p className="font-display text-lg font-bold">{v}</p>
