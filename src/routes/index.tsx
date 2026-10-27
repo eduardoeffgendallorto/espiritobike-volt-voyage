@@ -78,8 +78,8 @@ function Hero() {
 
   return (
     <section ref={root} className="relative min-h-[100svh] overflow-hidden grid-lines md:h-screen md:min-h-0">
-      <div className="hero-blob-a absolute -left-32 top-24 h-96 w-96 rounded-full bg-electric/40 blur-3xl" />
-      <div className="hero-blob-b absolute -right-20 bottom-0 h-96 w-96 rounded-full bg-pinkish/50 blur-3xl" />
+      <div className="hero-blob-a pointer-events-none absolute -left-48 top-8 h-[36rem] w-[36rem] rounded-full bg-[radial-gradient(circle,var(--electric)_0%,transparent_65%)] opacity-50" />
+      <div className="hero-blob-b pointer-events-none absolute -right-40 -bottom-24 h-[36rem] w-[36rem] rounded-full bg-[radial-gradient(circle,var(--pinkish)_0%,transparent_65%)] opacity-60" />
       <p className="hero-word pointer-events-none absolute bottom-6 left-0 whitespace-nowrap font-display text-[22vw] font-black leading-none text-ink/5">
         ELÉTRICA ELÉTRICA
       </p>
