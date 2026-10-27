@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ArrowDown, Gift, CreditCard, ShieldCheck, Wrench, MapPin, Navigation, Instagram, Phone } from "lucide-react";
-import heroBike from "@/assets/v8pro.webp";
+import heroBike from "@/assets/v8pro-hero.png";
 import { STORE, brl } from "@/lib/products";
 import { useCatalog } from "@/lib/catalog";
 import { ProductCard } from "@/components/site/ProductCard";
@@ -108,7 +108,7 @@ function Hero() {
             </Magnetic>
           </div>
         </div>
-        <div className="relative mix-blend-multiply">
+        <div className="relative">
           <img src={heroBike} alt="Ouxi V8 Pro" className="hero-bike w-full" />
           <div className="hero-specs absolute -bottom-4 right-0 z-20 grid grid-cols-3 gap-2 rounded-2xl glass border border-border p-3 text-center shadow-soft">
             {[["1000W", "Motor"], ["48V", "Bateria"], ["90 km", "Autonomia"]].map(([v, l]) => (
