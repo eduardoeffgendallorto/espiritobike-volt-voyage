@@ -45,28 +45,32 @@ function Hero() {
       gsap.from(".hero-in", { y: 60, opacity: 0, stagger: 0.12, duration: 1.1, ease: "power4.out", delay: 0.2 });
       gsap.from(".hero-bike", { x: 120, opacity: 0, duration: 1.4, ease: "power3.out", delay: 0.3 });
       const mm = gsap.matchMedia();
-      // Desktop: seção fixada com scrub completo.
-      mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
-        const tl = gsap.timeline({
-          scrollTrigger: { trigger: root.current, start: "top top", end: "+=120%", scrub: 1, pin: true, invalidateOnRefresh: true },
-        });
-        tl.to(".hero-bike", { scale: 1.35, x: "-18vw", rotate: -4, ease: "none" }, 0)
-          .to(".hero-copy", { y: -140, opacity: 0, ease: "none" }, 0)
-          .to(".hero-word", { xPercent: -30, ease: "none" }, 0)
-          .to(".hero-blob-a", { y: -200, ease: "none" }, 0)
-          .to(".hero-blob-b", { y: 160, ease: "none" }, 0)
-          .fromTo(".hero-specs", { opacity: 0, y: 60 }, { opacity: 1, y: 0, ease: "none" }, 0.5);
-      });
-      // Celular: sem fixar (evita saltos da barra do navegador), apenas parallax leve.
-      mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
-        const tl = gsap.timeline({
-          scrollTrigger: { trigger: root.current, start: "top top", end: "bottom top", scrub: true },
-        });
-        tl.to(".hero-word", { xPercent: -20, ease: "none" }, 0)
-          .to(".hero-blob-a", { y: -80, ease: "none" }, 0)
-          .to(".hero-blob-b", { y: 60, ease: "none" }, 0)
-          .to(".hero-bike", { y: -30, ease: "none" }, 0);
-      });
+      // Mesma animação fixada em todas as telas; no celular os deslocamentos são menores
+      // e a altura usa svh para não saltar quando a barra do navegador aparece/some.
+      mm.add(
+        { desktop: "(min-width: 768px)", motion: "(prefers-reduced-motion: no-preference)" },
+        (ctx) => {
+          const { desktop, motion } = ctx.conditions as { desktop: boolean; motion: boolean };
+          if (!motion) return;
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: root.current,
+              start: "top top",
+              end: desktop ? "+=120%" : "+=80%",
+              scrub: 1,
+              pin: true,
+              anticipatePin: 1,
+              invalidateOnRefresh: true,
+            },
+          });
+          tl.to(".hero-bike", desktop ? { scale: 1.35, x: "-18vw", rotate: -4, ease: "none" } : { scale: 1.15, y: "-12svh", rotate: -3, ease: "none" }, 0)
+            .to(".hero-copy", { y: desktop ? -140 : -80, opacity: 0, ease: "none" }, 0)
+            .to(".hero-word", { xPercent: -30, ease: "none" }, 0)
+            .to(".hero-blob-a", { y: desktop ? -200 : -100, ease: "none" }, 0)
+            .to(".hero-blob-b", { y: desktop ? 160 : 80, ease: "none" }, 0)
+            .fromTo(".hero-specs", { opacity: 0, y: 60 }, { opacity: 1, y: 0, ease: "none" }, 0.5);
+        },
+      );
       return () => mm.revert();
     },
     { scope: root },
