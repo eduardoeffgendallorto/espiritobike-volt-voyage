@@ -80,7 +80,7 @@ function Hero() {
         ELÉTRICA ELÉTRICA
       </p>
 
-      <div className="relative mx-auto grid h-full max-w-6xl items-center gap-6 px-6 pt-24 md:grid-cols-2">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-6 pb-16 pt-28 md:h-full md:grid-cols-2 md:gap-6 md:pb-0 md:pt-24">
         <div className="hero-copy z-10">
           <p className="hero-in mb-4 inline-block rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
             Revendedor autorizado · Vila Velha
@@ -106,7 +106,7 @@ function Hero() {
         </div>
         <div className="relative">
           <img src={heroBike} alt="Ouxi V8 Pro" className="hero-bike w-full mix-blend-multiply" />
-          <div className="hero-specs absolute -bottom-4 right-0 z-20 grid grid-cols-3 gap-2 rounded-2xl glass border border-border p-3 text-center shadow-soft">
+          <div className="hero-specs absolute -bottom-4 right-0 md:opacity-0 z-20 grid grid-cols-3 gap-2 rounded-2xl glass border border-border p-3 text-center shadow-soft">
             {[["1000W", "Motor"], ["48V", "Bateria"], ["90 km", "Autonomia"]].map(([v, l]) => (
               <div key={l} className="px-3">
                 <p className="font-display text-lg font-bold">{v}</p>
