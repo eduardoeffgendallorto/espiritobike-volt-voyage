@@ -45,7 +45,7 @@ export function BenefitsSection() {
             Mobilidade elétrica
           </p>
           <h2 className="benefit-head mx-auto max-w-3xl text-3xl font-black leading-tight md:text-5xl">
-            Por que escolher uma <span className="text-gradient">e-bike</span> para o seu dia a dia?
+            Por que escolher uma <span className="text-gradient whitespace-nowrap">e‑bike</span> para o seu dia a dia?
           </h2>
         </div>
         <div className="grid grid-cols-1 gap-6 [perspective:1000px] md:grid-cols-2 lg:grid-cols-4">
