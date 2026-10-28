@@ -44,7 +44,7 @@ export function BenefitsSection() {
           <p className="benefit-head mb-3 inline-block rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
             Mobilidade elétrica
           </p>
-          <h2 className="benefit-head mx-auto max-w-3xl text-3xl font-black leading-tight md:text-5xl">
+          <h2 className="benefit-head mx-auto max-w-4xl text-3xl font-black leading-tight md:text-5xl">
             Por que escolher uma <span className="text-gradient whitespace-nowrap">e‑bike</span> para o seu dia a dia?
           </h2>
         </div>
@@ -57,11 +57,13 @@ export function BenefitsSection() {
             >
               <div className="relative flex h-full flex-col gap-4 overflow-hidden rounded-[calc(1.75rem-1px)] bg-card p-6">
                 <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(220px_circle_at_var(--mx)_var(--my),color-mix(in_oklab,var(--electric)_18%,transparent),transparent_70%)]" />
-                <span className="pointer-events-none absolute -right-2 -top-4 font-display text-7xl font-black text-ink/5 transition-colors duration-300 group-hover:text-primary/10">
+                <span className="pointer-events-none absolute right-4 top-3 font-display text-6xl leading-none font-black text-ink/5 transition-colors duration-300 group-hover:text-primary/10">
                   0{i + 1}
                 </span>
-                <div className="benefit-icon relative grid h-14 w-14 place-items-center rounded-2xl bg-gradient-brand text-primary-foreground shadow-glow transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110">
-                  <I className="h-7 w-7" aria-hidden="true" />
+                <div className="benefit-icon relative w-fit">
+                  <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-brand text-primary-foreground shadow-glow transition-transform duration-500 group-hover:rotate-[-8deg] group-hover:scale-110">
+                    <I className="h-7 w-7" aria-hidden="true" />
+                  </div>
                 </div>
                 <h3 className="relative text-lg font-bold">{t}</h3>
                 <p className="relative flex-1 text-sm text-muted-foreground">{d}</p>
