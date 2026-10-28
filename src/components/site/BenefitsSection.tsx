@@ -18,10 +18,10 @@ export function BenefitsSection() {
       gsap.registerPlugin(ScrollTrigger);
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const tl = gsap.timeline({ scrollTrigger: { trigger: root.current, start: "top 75%", once: true } });
-        tl.from(".benefit-head", { y: 40, opacity: 0, stagger: 0.1, duration: 0.8, ease: "power3.out" })
-          .from(".benefit-card", { y: 60, opacity: 0, rotateX: -12, stagger: 0.12, duration: 0.9, ease: "power3.out" }, "-=0.4")
-          .from(".benefit-icon", { scale: 0, rotate: -45, stagger: 0.12, duration: 0.6, ease: "back.out(2)" }, "-=0.8");
+        const st = { trigger: root.current, start: "top 75%" };
+        gsap.from(".benefit-head", { y: 40, opacity: 0, stagger: 0.1, duration: 0.8, ease: "power3.out", scrollTrigger: st });
+        gsap.from(".benefit-card", { y: 60, opacity: 0, stagger: 0.12, duration: 0.9, delay: 0.2, ease: "power3.out", scrollTrigger: st });
+        gsap.from(".benefit-icon", { scale: 0, rotate: -45, stagger: 0.12, duration: 0.6, delay: 0.5, ease: "back.out(2)", scrollTrigger: st });
         gsap.to(".benefit-blob", { y: -60, ease: "none", scrollTrigger: { trigger: root.current, start: "top bottom", end: "bottom top", scrub: 1 } });
       });
       return () => mm.revert();
@@ -48,12 +48,12 @@ export function BenefitsSection() {
             Por que escolher uma <span className="text-gradient whitespace-nowrap">e‑bike</span> para o seu dia a dia?
           </h2>
         </div>
-        <div className="grid grid-cols-1 gap-6 [perspective:1000px] md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {ITEMS.map(({ icon: I, t, d, tag }, i) => (
             <div
               key={t}
               onPointerMove={onMove}
-              className="benefit-card group relative rounded-3xl bg-border p-px transition-all duration-300 hover:-translate-y-2 hover:bg-gradient-brand hover:shadow-glow"
+              className="benefit-card group relative rounded-3xl bg-border p-px transition-[translate,box-shadow] duration-300 hover:-translate-y-2 hover:bg-gradient-brand hover:shadow-glow"
             >
               <div className="relative flex h-full flex-col gap-4 overflow-hidden rounded-[calc(1.75rem-1px)] bg-card p-6">
                 <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(220px_circle_at_var(--mx)_var(--my),color-mix(in_oklab,var(--electric)_18%,transparent),transparent_70%)]" />
