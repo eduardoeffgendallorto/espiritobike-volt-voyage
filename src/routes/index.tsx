@@ -10,6 +10,7 @@ import { useCatalog } from "@/lib/catalog";
 import { ProductCard } from "@/components/site/ProductCard";
 import { Magnetic } from "@/components/site/Magnetic";
 import { PageTransition } from "@/components/site/Chrome";
+import { BenefitsSection } from "@/components/site/BenefitsSection";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -29,6 +30,7 @@ function Index() {
   return (
     <PageTransition>
       <Hero />
+      <BenefitsSection />
       <Catalog />
       <Perks />
       <StoreLocation />
@@ -42,32 +44,35 @@ function Hero() {
     () => {
       gsap.registerPlugin(ScrollTrigger);
       ScrollTrigger.config({ ignoreMobileResize: true });
-      gsap.from(".hero-in", { y: 60, opacity: 0, stagger: 0.12, duration: 1.1, ease: "power4.out", delay: 0.2 });
-      gsap.from(".hero-bike", { x: 120, opacity: 0, duration: 1.4, ease: "power3.out", delay: 0.3 });
       const mm = gsap.matchMedia();
-      // Mesma animação fixada em todas as telas; no celular os deslocamentos são menores
-      // e a altura usa svh para não saltar quando a barra do navegador aparece/some.
+      // Desktop: entrada lateral + pin com scale. Celular/tablet: apenas fade-in up, sem pin.
       mm.add(
-        { desktop: "(min-width: 768px)", motion: "(prefers-reduced-motion: no-preference)" },
+        { desktop: "(min-width: 1024px)", motion: "(prefers-reduced-motion: no-preference)" },
         (ctx) => {
           const { desktop, motion } = ctx.conditions as { desktop: boolean; motion: boolean };
           if (!motion) return;
+          if (!desktop) {
+            gsap.from(".hero-in, .hero-bike, .hero-specs", { y: 30, opacity: 0, stagger: 0.1, duration: 0.8, ease: "power2.out", delay: 0.15 });
+            return;
+          }
+          gsap.from(".hero-in", { y: 60, opacity: 0, stagger: 0.12, duration: 1.1, ease: "power4.out", delay: 0.2 });
+          gsap.from(".hero-bike", { x: 120, opacity: 0, duration: 1.4, ease: "power3.out", delay: 0.3 });
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: root.current,
               start: "top top",
-              end: desktop ? "+=120%" : "+=80%",
+              end: "+=120%",
               scrub: 1,
               pin: true,
               anticipatePin: 1,
               invalidateOnRefresh: true,
             },
           });
-          tl.to(".hero-bike", desktop ? { scale: 1.35, x: "-18vw", rotate: -4, ease: "none" } : { scale: 1.15, y: "-12svh", rotate: -3, ease: "none" }, 0)
-            .to(".hero-copy", { y: desktop ? -140 : -80, opacity: 0, ease: "none" }, 0)
+          tl.to(".hero-bike", { scale: 1.35, x: "-18vw", rotate: -4, ease: "none" }, 0)
+            .to(".hero-copy", { y: -140, opacity: 0, ease: "none" }, 0)
             .to(".hero-word", { xPercent: -30, ease: "none" }, 0)
-            .to(".hero-blob-a", { y: desktop ? -200 : -100, ease: "none" }, 0)
-            .to(".hero-blob-b", { y: desktop ? 160 : 80, ease: "none" }, 0)
+            .to(".hero-blob-a", { y: -200, ease: "none" }, 0)
+            .to(".hero-blob-b", { y: 160, ease: "none" }, 0)
             .fromTo(".hero-specs", { opacity: 0, y: 60 }, { opacity: 1, y: 0, ease: "none" }, 0.5);
         },
       );
@@ -77,14 +82,14 @@ function Hero() {
   );
 
   return (
-    <section ref={root} className="relative min-h-[100svh] overflow-hidden grid-lines md:h-screen md:min-h-0">
+    <section ref={root} className="relative overflow-hidden grid-lines lg:h-screen">
       <div className="hero-blob-a pointer-events-none absolute -left-48 top-8 h-[36rem] w-[36rem] rounded-full bg-[radial-gradient(circle,var(--electric)_0%,transparent_65%)] opacity-50" />
       <div className="hero-blob-b pointer-events-none absolute -right-40 -bottom-24 h-[36rem] w-[36rem] rounded-full bg-[radial-gradient(circle,var(--pinkish)_0%,transparent_65%)] opacity-60" />
       <p className="hero-word pointer-events-none absolute bottom-6 left-0 whitespace-nowrap font-display text-[22vw] font-black leading-none text-ink/5">
         ELÉTRICA ELÉTRICA
       </p>
 
-      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-6 pb-16 pt-28 md:h-full md:grid-cols-2 md:gap-6 md:pb-0 md:pt-24">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-6 pb-16 pt-28 lg:h-full lg:grid-cols-2 lg:gap-6 lg:pb-0 lg:pt-24">
         <div className="hero-copy z-10">
           <p className="hero-in mb-4 inline-block rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary">
             Revendedor autorizado · Vila Velha
@@ -108,9 +113,9 @@ function Hero() {
             </Magnetic>
           </div>
         </div>
-        <div className="relative">
-          <img src={heroBike} alt="Ouxi V8 Pro" className="hero-bike w-full" />
-          <div className="hero-specs absolute -bottom-4 right-0 z-20 grid grid-cols-3 gap-2 rounded-2xl glass border border-border p-3 text-center shadow-soft">
+        <div className="relative min-w-0">
+          <img src={heroBike} alt="Ouxi V8 Pro" className="hero-bike h-auto w-full max-w-full object-contain" />
+          <div className="hero-specs relative mt-4 z-20 lg:absolute lg:-bottom-4 lg:right-0 lg:mt-0 grid grid-cols-3 gap-2 rounded-2xl glass border border-border p-3 text-center shadow-soft">
             {[["1000W", "Motor"], ["48V", "Bateria"], ["90 km", "Autonomia"]].map(([v, l]) => (
               <div key={l} className="px-3">
                 <p className="font-display text-lg font-bold">{v}</p>
