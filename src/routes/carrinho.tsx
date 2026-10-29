@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Minus, Plus, Trash2 } from "lucide-react";
-import { brl, getProduct, STORE } from "@/lib/products";
+import { brl, STORE } from "@/lib/products";
+import { useCatalog } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 import { PageTransition } from "@/components/site/Chrome";
 
@@ -20,7 +21,11 @@ export const Route = createFileRoute("/carrinho")({
 
 function Cart() {
   const { cart, setQty } = useStore();
-  const items = Object.entries(cart).map(([s, q]) => ({ p: getProduct(s)!, q })).filter((i) => i.p);
+  const { getProduct } = useCatalog();
+  // Modelo que saiu do catálogo (escondido ou apagado) some do carrinho em vez de quebrar a página.
+  const items = Object.entries(cart)
+    .map(([s, q]) => ({ p: getProduct(s), q }))
+    .filter((i): i is { p: NonNullable<typeof i.p>; q: number } => !!i.p);
   const total = items.reduce((a, i) => a + i.p.price * i.q, 0);
   const msg = `Olá! Quero finalizar meu pedido:\n${items.map((i) => `• ${i.q}x ${i.p.name} (${brl(i.p.price)})`).join("\n")}\nTotal: ${brl(total)}`;
   return (

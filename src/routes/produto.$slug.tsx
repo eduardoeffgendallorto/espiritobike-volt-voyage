@@ -5,14 +5,19 @@ import { useGSAP } from "@gsap/react";
 import { ArrowLeft, Gift } from "lucide-react";
 import { toast } from "sonner";
 import { brl, getProduct, STORE } from "@/lib/products";
+import { loadCatalog, useCatalog } from "@/lib/catalog";
 import { useStore } from "@/lib/store";
 import { Magnetic } from "@/components/site/Magnetic";
 import { PageTransition } from "@/components/site/Chrome";
-import { loadCatalog, useCatalog } from "@/lib/catalog";
 
 export const Route = createFileRoute("/produto/$slug")({
-  loader: ({ params }) => {
-    const p = getProduct(params.slug);
+  // Busca o modelo no catálogo do banco. Se o banco não responder, usa o do código.
+  // Na geração do site (servidor), um modelo que ainda está no código não derruba o build.
+  loader: async ({ params, context }) => {
+    const list = await loadCatalog(context.queryClient);
+    const p =
+      list.find((x) => x.slug === params.slug) ??
+      (typeof window === "undefined" ? getProduct(params.slug) : undefined);
     if (!p) throw notFound();
     return p;
   },
@@ -32,7 +37,10 @@ export const Route = createFileRoute("/produto/$slug")({
 });
 
 function ProductPage() {
-  const p = Route.useLoaderData();
+  const loaded = Route.useLoaderData();
+  // Depois que o catálogo ao vivo chega, ele vale mais que o carregado na entrada da página.
+  const { products } = useCatalog();
+  const p = products.find((x) => x.slug === loaded.slug) ?? loaded;
   const { addToCart, toggleCompare, compare } = useStore();
   const root = useRef<HTMLDivElement>(null);
   useGSAP(() => {
